@@ -13,6 +13,12 @@ module OmniAuth
         token_url: 'https://accounts.snapchat.com/login/oauth2/access_token'
       }
 
+      def authorize_params
+        super.tap do |params|
+          params[:scope] = options[:scope] if options[:scope]
+        end
+      end
+
       uid { raw_info['me']['id'] }
 
       info do
