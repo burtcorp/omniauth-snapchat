@@ -13,6 +13,12 @@ module OmniAuth
         token_url: 'https://accounts.snapchat.com/login/oauth2/access_token'
       }
 
+      def authorize_params
+        super.tap do |params|
+          params[:scope] = options[:scope] if options[:scope]
+        end
+      end
+
       uid { raw_info['me']['id'] }
 
       info do
@@ -32,7 +38,8 @@ module OmniAuth
 
       def raw_info
         raw_info_url = "https://adsapi.snapchat.com/v1/me"
-        @raw_info ||= access_token.get(raw_info_url).parsed
+        @raw_info ||= access_token.get(raw_info_url, mode: :header, header_format: 'Bearer %s').parsed
+        @raw_info || {'me' => {}}
       end
 
       def callback_url
@@ -44,7 +51,8 @@ module OmniAuth
         super.merge({
           headers: {
             "Authorization" => "Basic #{authorization}"
-          }
+          },
+          parse: :json,
         })
       end
     end
