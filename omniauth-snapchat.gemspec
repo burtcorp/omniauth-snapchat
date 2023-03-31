@@ -14,6 +14,6 @@ Gem::Specification.new do |spec|
 
   spec.files         = `git ls-files`.split("\n")
 
-  spec.add_development_dependency "bundler", "~> 1.16"
-  spec.add_runtime_dependency "omniauth-oauth2", "~> 1.6"
+  spec.add_development_dependency "bundler", "~> 2"
+  spec.add_runtime_dependency "omniauth-oauth2", "~> 1.8"
 end
